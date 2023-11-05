@@ -3,4 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('tournaments/', views.TournamentListView.as_view(), name='tournaments'),
+    path('tournament/<int:pk>', views.tournament_detail_view, name='tournament-detail'),
+    path('tournaments/create/', views.createTournament, name='tournament-create'),
 ]
