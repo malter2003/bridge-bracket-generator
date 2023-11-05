@@ -1,0 +1,17 @@
+{% extends 'bracket_app/base_template.html' %}
+
+
+{% block content %}
+<h1>Tournament List</h1>
+{% if tournament_list %}
+<ul>
+   {% for tournament in tournament_list %}
+   <li>
+      <a href="{{ tournament.get_absolute_url }}">{{ tournament.title }}</a> - Organizer: {{ tournament.creator }}
+   </li>
+   {% endfor %}
+</ul>
+{% else %}
+<p>There are no tournaments.</p>
+{% endif %}
+{% endblock %}

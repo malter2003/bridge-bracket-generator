@@ -1,0 +1,18 @@
+{% extends 'bracket_app/base_template.html' %}
+
+{% block content %}
+<h1>Tournament Name: {{ tournament.title }}</h1>
+
+<p><strong>Active:</strong> {{ tournament.is_active }}</p>
+<p><strong>Organizer:</strong> {{ tournament.creator }}</p>
+
+<p><strong>Players:</strong></p>
+<ul>
+    {% for player in player_list %}
+    <li>
+        <p> {{ player }} </p>
+    </li>
+    {% endfor %}
+ </ul>
+
+{% endblock %}
