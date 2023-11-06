@@ -1,0 +1,12 @@
+<!-- inherit from base.html -->
+{% extends 'bracket_app/base_template.html' %}
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+<form action="" method="POST">
+   <p>Are you sure you want to delete tournament: "{{ tournament.title }}"?</p>
+   {% csrf_token %}
+   <a href="{% url 'tournament-detail' pk=tournament.id %}" class="btn btn-primary">Cancel</a>
+   <input type="submit" name="Confirm">
+</form>
+{% endblock %}

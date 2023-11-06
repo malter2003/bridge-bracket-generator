@@ -1,0 +1,16 @@
+<!-- inherit from base.html -->
+{% extends 'bracket_app/base_template.html' %}
+
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+<h1>Update Tournament:</h1>
+<form action="" method="POST">
+   {% csrf_token %}
+   <table>
+      {{ form.as_table }}
+   </table>
+   <a class="btn btn-primary" href="{% url 'tournament-detail' pk=tournament.id %}">Cancel</a>
+   <button type="submit">Update</button>
+</form>
+{% endblock %}
