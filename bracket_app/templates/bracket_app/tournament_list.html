@@ -7,7 +7,10 @@
 <ul>
    {% for tournament in tournament_list %}
    <li>
-      <a href="{{ tournament.get_absolute_url }}">{{ tournament.title }}</a> - Organizer: {{ tournament.creator }}
+      {{ tournament.title }} - Organizer: {{ tournament.creator }}
+      <a class="btn btn-primary" href="{{ tournament.get_absolute_url }}" role="button">View</a>
+      <a class="btn btn-danger" href="{% url 'tournament-delete' pk=tournament.id %}" role="button">Delete</a>
+      <a class="btn btn-secondary" href="{% url 'tournament-update' pk=tournament.id %}" role="button">Update</a>
    </li>
    {% endfor %}
 </ul>

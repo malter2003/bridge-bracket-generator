@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.views import generic
 from .models import *
+from django.views import generic
 from .forms import *
+from django.shortcuts import get_object_or_404
+from django.contrib import messages
 import json
 
 def index(request):
@@ -23,7 +25,6 @@ def tournament_detail_view(request, pk):
     }
 
     return render(request, 'bracket_app/tournament_detail.html', context)
-
 
 
 def createTournament(request):
@@ -52,3 +53,35 @@ def createTournament(request):
 def stringToList(string):
     string = string.replace('\r', '')
     return string.split('\n')
+
+def updateTournament(request, pk):
+  tournament = get_object_or_404(Tournament, pk=pk)
+
+  if request.method == 'POST':
+
+    form = TournamentForm(request.POST, instance = tournament)
+    if form.is_valid():
+      player_list = stringToList(tournament.players)
+      tournament.players = json.dumps(player_list)
+      form.save()
+      return redirect('tournament-detail', pk=pk)
+  else:
+    player_list = json.loads(tournament.players)
+    tournament.players = "\n".join(player_list)
+    form = TournamentForm(instance=tournament)
+
+    context={
+     'form': form,
+     'tournament': tournament,
+    }
+  return render(request, 'bracket_app/tournament_update.html', context)
+
+def deleteTournament(request, pk):
+    tournament = get_object_or_404(Tournament, pk=pk)
+    if request.method == 'POST':
+        tournament.delete()
+        # Redirect back to the tournament detail page
+        return redirect('tournaments')
+
+    context = {'tournament': tournament}
+    return render(request, 'bracket_app/tournament_delete.html', context)

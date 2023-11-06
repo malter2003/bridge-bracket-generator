@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from .models import *
 
-#create class for project form
+# create class for tournament form
 class TournamentForm(ModelForm):
     class Meta:
         model = Tournament

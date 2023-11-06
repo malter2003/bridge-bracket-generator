@@ -1,5 +1,7 @@
 {% extends 'bracket_app/base_template.html' %}
 
+{% load static %}
+
 {% block content %}
 <h1>Tournament Name: {{ tournament.title }}</h1>
 
@@ -13,6 +15,6 @@
         <p> {{ player }} </p>
     </li>
     {% endfor %}
- </ul>
+</ul>
 
 {% endblock %}
