@@ -31,12 +31,10 @@ def createTournament(request):
     form = TournamentForm()
     
     if request.method == 'POST':
-        # Create a new dictionary with form data
         tournament_data = request.POST.copy()
         
         form = TournamentForm(tournament_data)
         if form.is_valid():
-            # Save the form without committing to the database
             tournament = form.save(commit=False)
 
             player_list = stringToList(tournament.players)
@@ -44,7 +42,6 @@ def createTournament(request):
             tournament.players = json.dumps(player_list)
             tournament.save()
 
-            # Redirect back to the tournament detail page
             return redirect('tournament-detail', pk=tournament.pk)
 
     context = {'form': form}

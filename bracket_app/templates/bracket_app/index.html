@@ -1,6 +1,8 @@
 <!-- inherit from base.html-->
 {% extends "bracket_app/base_template.html" %}
 
+{% load static %}
+
 <!-- Replace block content in base_template.html -->
 {% block content %}
 <h1>Tournament Bracket Generator</h1><br>
@@ -18,6 +20,9 @@
 <p style="max-width: 600px;  margin: 20px 20px 20px 20px; color: #cccccc">
     Go to the <strong>Create</strong> page, enter in the details for 
     the tournament bracket, and click submit! Anyone will be able
-    to view your tournament bracket.</p>
+    to view your tournament bracket.
+</p>
+
+<img src="{% static 'images/bracket_example.jpg' %}" >
 
 {% endblock %}
