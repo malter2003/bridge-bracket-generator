@@ -1,24 +1,28 @@
 from PIL import Image, ImageDraw
 
-def draw_squares(num_squares, pk):
-    square_size = 50  # Adjust the size of the square
-    distance_between_squares = 60  # Adjust the distance between squares
-
-    # Calculate the image size based on the number of squares
-    image_width = (num_squares + 1) * distance_between_squares
-    image_height = square_size + 20  # Add some padding at the top
+def draw_squares(player_list, pk):
+    # Set up the image size based on the number of entries
+    image_width = 500
+    image_height = 500
 
     # Create a new image with a white background
     image = Image.new("RGB", (image_width, image_height), "white")
     draw = ImageDraw.Draw(image)
 
-    # Draw the squares
-    x = 10  # Start drawing from a little padding on the left
-    y = 10  # Start drawing from a little padding at the top
-    for _ in range(num_squares):
-        draw.rectangle([x, y, x + square_size, y + square_size], outline="black")
-        x += distance_between_squares
+    # Draw rectangles for each entry
+    entry_width = image_width // (len(player_list) + 1)
+    entry_height = image_height // len(player_list)
 
-    # Save the image as a PNG file
+    for i, entry in enumerate(player_list):
+        x = 0
+        y = i * entry_height
+        draw.line([(x, y), (entry_width, y + entry_height // 2)], fill="black")
+        draw.line([(x, y + entry_height), (entry_width, y + entry_height // 2)], fill="black")
+        draw.rectangle([entry_width, y, image_width, y + entry_height], outline="black")
 
-    image.save("bracket_app/bracket_images/" + str(pk) + "_bracket.png")
+    # Draw a rectangle for the winner
+    winner_x = image_width - entry_width
+    winner_y = (image_height - entry_height) // 2
+    draw.rectangle([winner_x, winner_y, winner_x + entry_width, winner_y + entry_height], outline="black", fill="lightgreen")
+
+    image.save("bracket_app/static/bracket_images/" + str(pk) + "_bracket.png")

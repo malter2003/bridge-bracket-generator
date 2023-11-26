@@ -23,6 +23,7 @@ def tournament_detail_view(request, pk):
     context = {
         'tournament': tournament,
         'player_list': players,
+        'path': "bracket_images/" + str(pk) + "_bracket.png"
     }
 
     return render(request, 'bracket_app/tournament_detail.html', context)
@@ -41,8 +42,9 @@ def createTournament(request):
             player_list = stringToList(tournament.players)
 
             tournament.players = json.dumps(player_list)
+            tournament.image_path = "bracket_images/" + str(tournament.pk) + "_bracket.png"
             tournament.save()
-            generator.draw_squares(len(player_list), tournament.pk)
+            generator.draw_squares(player_list, tournament.pk)
 
             return redirect('tournament-detail', pk=tournament.pk)
 
