@@ -5,6 +5,7 @@ from django.views import generic
 from .forms import *
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from . import generator
 import json
 
 def index(request):
@@ -41,6 +42,7 @@ def createTournament(request):
 
             tournament.players = json.dumps(player_list)
             tournament.save()
+            generator.draw_squares(len(player_list), tournament.pk)
 
             return redirect('tournament-detail', pk=tournament.pk)
 
