@@ -5,7 +5,7 @@ from django.views import generic
 from .forms import *
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from . import generator
+from .generator import Generator
 import json
 
 def index(request):
@@ -23,7 +23,8 @@ def tournament_detail_view(request, pk):
     context = {
         'tournament': tournament,
         'player_list': players,
-        'path': "bracket_images/" + str(pk) + "_bracket.png"
+        'path': "bracket_images/" + str(pk) + "_bracket.png",
+        'size': len(players)
     }
 
     return render(request, 'bracket_app/tournament_detail.html', context)
@@ -40,11 +41,10 @@ def createTournament(request):
             tournament = form.save(commit=False)
 
             player_list = stringToList(tournament.players)
-
             tournament.players = json.dumps(player_list)
-            tournament.image_path = "bracket_images/" + str(tournament.pk) + "_bracket.png"
             tournament.save()
-            generator.draw_squares(player_list, tournament.pk)
+
+            Generator(800, 800, 50, player_list, tournament.pk).draw()
 
             return redirect('tournament-detail', pk=tournament.pk)
 

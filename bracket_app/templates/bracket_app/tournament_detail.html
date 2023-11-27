@@ -3,20 +3,11 @@
 {% load static %}
 
 {% block content %}
-<h1>Tournament Name: {{ tournament.title }}</h1>
+<h1>{{ tournament.title }}</h1>
 
-<p><strong>Completed:</strong> {{ tournament.is_active }}</p>
+<p><strong>Completed:</strong> {{ tournament.completed }}</p>
 <p><strong>Organizer:</strong> {{ tournament.creator }}</p>
-<p><strong>Organizer:</strong> {{ tournament.image_path }}</p>
-
-<p><strong>Players:</strong></p>
-<ul>
-    {% for player in player_list %}
-    <li>
-        <p> {{ player }} </p>
-    </li>
-    {% endfor %}
-</ul>
+<p><strong>Number of Players:</strong> {{ size }}</p>
 
 <img src="{% static path %}" alt="Tournament Bracket">
 
