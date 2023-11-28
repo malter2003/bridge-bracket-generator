@@ -5,6 +5,10 @@ from django.views import generic
 from .forms import *
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .decorators import allowed_users
 from .generator import Generator
 import json
 
@@ -29,7 +33,8 @@ def tournament_detail_view(request, pk):
 
     return render(request, 'bracket_app/tournament_detail.html', context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['maker'])
 def createTournament(request):
     form = TournamentForm()
     
@@ -55,6 +60,8 @@ def stringToList(string):
     string = string.replace('\r', '')
     return string.split('\n')
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['maker'])
 def updateTournament(request, pk):
   tournament = get_object_or_404(Tournament, pk=pk)
 
@@ -65,6 +72,7 @@ def updateTournament(request, pk):
       player_list = stringToList(tournament.players)
       tournament.players = json.dumps(player_list)
       form.save()
+      Generator(800, 800, 50, player_list, tournament.pk).draw()
       return redirect('tournament-detail', pk=pk)
   else:
     player_list = json.loads(tournament.players)
@@ -77,6 +85,8 @@ def updateTournament(request, pk):
     }
   return render(request, 'bracket_app/tournament_update.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['maker'])
 def deleteTournament(request, pk):
     tournament = get_object_or_404(Tournament, pk=pk)
     if request.method == 'POST':
@@ -86,3 +96,26 @@ def deleteTournament(request, pk):
 
     context = {'tournament': tournament}
     return render(request, 'bracket_app/tournament_delete.html', context)
+
+
+def registerPage(request):
+    form = CreateUserForm()
+    print('y')
+    
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        print('z')
+        if form.is_valid():
+            print('x')
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            group = Group.objects.get(name='maker')
+            user.groups.add(group)
+            print('yay')
+
+            messages.success(request, 'Account was created for: ' + username)
+            return redirect('login')
+    
+    context = {'form': form}
+    return render(request, 'registration/register.html', context)
+    

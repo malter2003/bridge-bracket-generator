@@ -35,6 +35,16 @@
                      <li class="nav-item">
                         <a class="nav-link active" style="color: white;" aria-current="page" href="{% url 'index' %}tournaments/create">Create</a>
                      </li>
+
+                     {% if user.is_authenticated %}
+                     <li class="nav-item">
+                        <a class="nav-link active" style="color: white;" aria-current="page" href="{% url 'logout' %}">Logout: {{user}}</a>
+                     </li>
+                     {% else %}
+                     <li class="nav-item">
+                        <a class="nav-link active" style="color: white;" aria-current="page" href="{% url 'login' %}">Login</a>
+                     </li>
+                     {% endif %}
                   </ul>
                </div>
             </div>
