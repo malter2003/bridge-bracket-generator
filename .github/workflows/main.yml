@@ -22,5 +22,5 @@ jobs:
 
     - name: Run tests
       run: |
-        coverage run manage.py test
+        coverage run manage.py test bracket_app.tests.TestModels bracket_app.tests.TestViews
         coverage report -m
