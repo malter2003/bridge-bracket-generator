@@ -47,6 +47,7 @@ def createTournament(request):
 
             player_list = stringToList(tournament.players)
             tournament.players = json.dumps(player_list)
+            tournament.creator = request.user.username
             tournament.save()
 
             Generator(800, 800, 50, player_list, tournament.pk).draw()

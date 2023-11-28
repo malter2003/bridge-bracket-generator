@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class TournamentForm(ModelForm):
     class Meta:
         model = Tournament
-        fields =('creator', 'title', 'players', 'completed')
+        fields =('title', 'players', 'completed')
 
 class CreateUserForm(UserCreationForm):
     class Meta:
