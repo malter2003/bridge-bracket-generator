@@ -7,7 +7,8 @@ class Node:
         self.y = y
 
 class Generator:
-    def __init__(self, width, height, padding, player_list, pk):      
+    def __init__(self, width, height, padding, player_list, pk, is_testing=False):     
+        self.is_testing = is_testing 
         self.width = width
         self.height = height
         self.padding = padding
@@ -31,8 +32,12 @@ class Generator:
         self.draw_horizontal_lines(draw, nodes, self.entry_width)
         self.draw_text_above_lines(draw, nodes, self.entry_width, self.font_size)
 
+        self.path = "bracket_app/static/bracket_images/" + str(self.pk) + "_bracket.png"
 
-        image.save("bracket_app/static/bracket_images/" + str(self.pk) + "_bracket.png")
+        if (self.is_testing):
+            image.close()
+        else:    
+            image.save(self.path)
 
 
     def draw_horizontal_lines(self, draw, nodes, x_length):

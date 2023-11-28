@@ -3,3 +3,4 @@ django_project/__pycache__
 bracket_app/__pycache__
 bracket_app/migrations/__pycache__
 bracket_app/static/bracket_images
+.coverage
